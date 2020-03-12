@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<style type="text/css">
+	.a1{
+		margin-bottom: 70px;
+
+	}
+	.a2{
+		color: #fff
+
+	}
+	a:hover {
+  color: cyan;
+}
+</style>
+<div class="container-fluid bg-2 text-center a1">
+
+    {% for m in movies %}
+    <a href="Movie/movie/{{ m.id}}" class="a2" >
+    <i>{{ m }}</i>
+    </a>
+     <br>
+    {% endfor %}
+  
+</div>
+
+
+{% endblock %}

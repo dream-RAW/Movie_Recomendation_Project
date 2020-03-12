@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<style>
+    .bg{
+        background-color: rgba(232, 236, 241, 1);
+    }
+    .div1 {
+  border-style: solid;
+  border-color: cyan;
+}
+
+</style>
+
+
+
+<div class="container-fluid bg-2 text-center">
+    {{ instance.id }} . {{instance.MovieTitle}} ({{ instance.MovieYear }})
+
+
+<div class="col-sm-offset-1 col-sm-4 " > 
+    <div class="form-group">
+      <label for="comment"> Rate movie out of 5 :</label>
+    <select id="rating" style="background: #545454">
+      <option value="1">1</option>
+      <option value="2" selected="selected">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    </div><br>
+    <div class="form-group">
+      <label for="comment"> Review Comment:</label>
+      <textarea class="form-control" style="background: #545454; color: #fff" id='name'  rows="5" id="comment"></textarea>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-info" id="mainbutton">Submit</button>
+<br>
+<div id='useritems'></div>
+</div>
+
+<div class="col-sm-offset-2 col-sm-4 " > 
+    <div class="form-group">
+      <label for="comment"> Do you want to add to watchlist ?? </label>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-info" id="yesbutton">yes</button>
+<div id='added'></div>
+</div>
+
+</div>
+
+
+<script type="text/javascript">
+
+// var rate = document.getElementById("rating").value;
+// var name=$('#review').val();
+// var name=$('#name').val();
+
+function getCookie(name) {
+var cookieValue = null;
+if (document.cookie && document.cookie != '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = jQuery.trim(cookies[i]);
+        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+        }
+    }
+}
+return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+function csrfSafeMethod(method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+$(document).ready(function(){
+    $("#mainbutton").click(function(){
+        var name=$('#name').val();
+        //alert(name)
+        var rate = document.getElementById("rating").value;
+        //alert(rate)
+        //alert('{{ instance.id }}')
+
+        $.post("http://127.0.0.1:8000/ratings/",
+                {
+                    UserId:{{user.id}},
+                    MovieID:{{instance.id}},
+                    rating:rate,
+                    review:name,
+                    csrfmiddlewaretoken: window.CSRF_TOKEN
+                },
+                function(data,status){
+                    var div = document.getElementById('useritems');
+                    div.innerHTML = div.innerHTML + data;       
+
+                });
+    });
+});
+
+
+$(document).ready(function(){
+    $("#yesbutton").click(function(){
+        //alert('{{ instance.MovieTitle }}')
+        $.post("http://127.0.0.1:8000/watched/",
+                {
+                    UserId:{{user.id}},
+                    MovieTitle:'{{instance.MovieTitle}}',
+                    csrfmiddlewaretoken: window.CSRF_TOKEN
+                },
+                function(data,status){
+                    var div = document.getElementById('added');
+                    div.innerHTML = div.innerHTML + data;       
+
+                });
+    });
+});
+
+
+
+
+// function myFunction() {
+// $.ajax({
+//     url: "http://127.0.0.1:8000/train/",
+//     type: 'get',
+//     success: function (data) {
+      
+//       var div = document.getElementById('jsondata');
+//       div.innerHTML = div.innerHTML + data;       
+
+//     }
+//   });
+// }
+
+</script>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,7 @@
+numpy==1.16.1
+pandas==0.24.1
+Django==2.1.2
+django_countries==5.3.3
+scipy==1.2.1
+djangorestframework==3.9.2
+django-crispy-forms

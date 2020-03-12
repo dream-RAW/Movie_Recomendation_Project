@@ -1,0 +1,20 @@
+1.Movies used in this project are subset of Movielens dataset.
+2.For simplycity we added 30 movies.
+
+3.install requirements.txt files.
+4.then start server with 8000 port.
+
+
+5.new user can signup by clicking register
+6.existing user to login click on login button...
+
+7.if logged in , you will have menu -- movieslist,watchedlist,logout
+8.if you want to add to watched list click on any movie 
+9.if you want to give rating and review click on any movie
+
+10.once you added to watchedlist ,you can goto watchedlist
+
+11.recommendations are given based user interests and ratings given by user to other movies
+12.we used SVD collaborative filtering algorithm.
+
+13.To see rating based recommendations user should rate atleast one movie.

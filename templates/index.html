@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+{% if user.is_authenticated %}
+<style>
+	.bc2{
+		background-color: #37544f;
+	}
+</style>
+
+<div class="container-fluid bc2 text-center">
+<p>Welcome, {{ user.get_username }}. Thanks for logging in.</p>
+
+  <h2> Recommended movies based on your interests </h2>
+
+<div class="col-sm-offset-3 col-sm-6 col-sm-offset-3" >
+
+<table class="table table-bordered ">
+  <thead class="thead-light">
+    <tr>
+      <th class="text-center" >Movie</th>
+      <th class="text-center" >Genre</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for m in movies %}
+
+    <tr>
+      <td>{{ m }}</td>
+      <td>  {{ m.MovieGenre }} </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+
+<div class="col-sm-offset-3 col-sm-6 col-sm-offset-3" >
+
+  <h2> Recommended movies based on your ratings to other movies </h2>
+
+<table class="table table-bordered ">
+  <thead class="thead-light">
+    <tr>
+      <th class="text-center" >Movie</th>
+      <th class="text-center" >Genre</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in rmovies %}
+
+    <tr>
+      <td>{{ r }}</td>
+      <td>  {{ r.MovieGenre }} </td>
+    </tr>
+        {% empty %}
+    <p>sorry you did not rate any movies.. goto movielist and rate..!!</p>
+    {% endfor %}
+
+  </tbody>
+</table>
+
+
+</div>  
+</div>
+
+ <a href="{% url 'logout' %}">logout</a>
+
+
+{% else %}
+<div class="container-fluid bg-1 text-center">
+    <p>Welcome, new user. Please log in.</p>
+
+    <h4>Login <a href="{% url 'login' %}">here</a></h3> 
+    <h4>Register  <a href="{% url 'register' %}">here</a></h3>
+</div>
+<br><br><br><br>
+
+{% endif %}
+
+
+{% endblock %}

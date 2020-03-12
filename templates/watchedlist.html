@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<style type="text/css">
+	.a1{
+		margin-bottom: 70px;
+	}
+</style>
+<div class="container-fluid bg-2 text-center a1">
+
+    {% for m in movies %}
+    <i>{{ m }}</i>
+    </a>
+     <br>
+    {% endfor %}
+  
+</div>
+
+
+{% endblock %}
